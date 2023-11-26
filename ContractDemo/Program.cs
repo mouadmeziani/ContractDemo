@@ -1,20 +1,27 @@
 ﻿using ContractDemo.Logic;
 using ContractDemo.Model;
-using System.Globalization;
-using ContractDemo;
+using Autofac;
+using ContractDemo.Repositories;
 
 string path = args[0];
 
-//Importing the Csv and Put in it in the contractList
-//please use autfac di later
-// skip 1 because the first line is considered as a header(no data only data defintion)
+var contracts = new List<Contract>();
+var container = ContainerConfig.ConfigureContainer(path);
 
-// Parse each line and create Contract objects
-IDataRepository dataRepository = new FileDataRepository();
-IDataMapper dataMapper = new DataMapper();
-IContractManager contractManager = new ContractManager();
-
-var inputLines = dataRepository.LoadData(path).Skip(1);
-List<Contract> contracts = dataMapper.MappingContractsFromString(inputLines);
-((List<Contract>)contractManager.Flatten(contracts)).ForEach(Console.WriteLine);
-
+using (var scope = container.BeginLifetimeScope())
+{
+    IRepository dataRepository = container.Resolve<IRepository>();
+    IDataMapper dataMapper = container.Resolve<IDataMapper>();
+    IContractManager contractManager = container.Resolve<IContractManager>();
+    try
+    {
+        var inputLines = dataRepository.GetAll().Skip(1);
+        contracts = dataMapper.MappingContractsFromString(inputLines);
+        (dataRepository as FileDataRepository).OverrideOrWriteToFile(contracts);
+        ((List<Contract>)contractManager.Flatten(contracts)).ForEach(Console.WriteLine);
+    }
+    catch (FileNotFoundException exception)
+    {
+        Console.Error.WriteLine(exception.Message);
+    }
+}

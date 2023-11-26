@@ -10,7 +10,6 @@ public record DateRange(DateTime From, DateTime To) : IDateRange
 
     public IEnumerable<DateRange> Cut(DateRange other)
     {
-
         if (!Overlaps(other))
         {
             yield return this;
@@ -56,7 +55,11 @@ public record DateRange(DateTime From, DateTime To) : IDateRange
             yield return this with { From = other.To.AddDays(1) };
         }
     }
-
+    /*
+     *
+     *  List.of(1,2,3,4,5,6).Aggregate(0, a => a * a);
+     *
+     */
     public IEnumerable<DateRange> CutAll(IEnumerable<DateRange> others) => others
     .Aggregate(
         Enumerable.Repeat(this, 1),
