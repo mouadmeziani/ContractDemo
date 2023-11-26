@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ContractDemo": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\mmoua\\Desktop\\MyProject\\Beispieldaten 2.csv\""
+    }
+  }
+}
