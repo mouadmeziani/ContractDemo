@@ -11,8 +11,6 @@ public class ContainerConfig
     
         builder.RegisterType<FileDataRepository>().As<IRepository>()
             .WithParameter("fileLocation", path);
-        builder.RegisterType<DataMapper>().As<IDataMapper>();
-        builder.RegisterType<ContractManager>().As<IContractManager>();
     
         return builder.Build();
     }

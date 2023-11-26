@@ -8,9 +8,9 @@ using ContractDemo.Model;
 
 namespace ContractDemo.Logic
 {
-    public class DataMapper : IDataMapper
+    public class DataMapper
     {
-        public List<Contract> MappingContractsFromString(IEnumerable<string> contractData)
+        public  static List<Contract> MappingContractsFromString(IEnumerable<string> contractData)
         {
             List<Contract> contracts = new List<Contract>();
 

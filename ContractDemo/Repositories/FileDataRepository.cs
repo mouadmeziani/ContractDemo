@@ -35,7 +35,6 @@ namespace ContractDemo.Repositories
         {
             return GetFileData();
         }
-
         public void OverrideOrWriteToFile(List<Contract> linesToWrite)
         {
             string newFileLocation = 
@@ -50,5 +49,7 @@ namespace ContractDemo.Repositories
                 linesToWrite.ForEach(writer.WriteLine);
             }
         }
+
+
     }
 }
